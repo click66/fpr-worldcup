@@ -30,6 +30,10 @@ this function will return 6 fixtures:
 
      [ (AUS , BEL), (AUS , COL), (AUS , DEN), (BEL, COL), (BEL, DEN), (COL, DEN) ]
 
+TODO: Add basic logic explanation
+
+Any duplicate teams passed will be ignored (this is achieved by simply filtering out the duplicates before running the algorithm. In a case where it is not possible to make any pairs (e.g. the list contains only a single team), an empty list will be returned.
+
 > fixtures :: [Team] -> [Fixture]
 > fixtures []     = []
 > fixtures [team] = []
