@@ -30,13 +30,13 @@ this function will return 6 fixtures:
 
      [ (AUS , BEL), (AUS , COL), (AUS , DEN), (BEL, COL), (BEL, DEN), (COL, DEN) ]
 
-TODO: Add basic logic explanation
+The function utilises Haskell's list comprehension on the tails of the teams list. It is essentially a nested loop, iterating within each team to pair the "head" of each tail with the remaining elements in that tail. 
 
 Any duplicate teams passed will be ignored (this is achieved by simply filtering out the duplicates before running the algorithm. In a case where it is not possible to make any pairs (e.g. the list contains only a single team), an empty list will be returned.
 
 > fixtures :: [Team] -> [Fixture]
 > fixtures []     = []
 > fixtures [team] = []
-> fixtures l      = [(x, y) | (x:ys) <- tails uniques, y <- ys]
+> fixtures teams  = [(teamA, teamB) | (teamA:teams) <- tails uniques, teamB <- teams]
 >                     where
->                       uniques = nub l
+>                       uniques = nub teams
