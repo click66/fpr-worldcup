@@ -11,26 +11,27 @@ spec :: Spec
 spec = do
     describe "worlds" $ do
 
-        it "returns an empty list when given no fixtures" $ do
-            worlds [] `shouldBe` []
+        let exampleFixtures = [ (AUS, BEL)
+                              , (AUS, COL)
+                              , (AUS, DEN)
+                              , (BEL, COL)
+                              , (BEL, DEN)
+                              , (COL, DEN)
+                              ]
+
+        it "returns a singleton list when given no fixtures" $ do
+            worlds [] `shouldBe` [[]]
 
         it "is of length r^f where r = number of possible results & f = number of fixtures" $ property $
-            let exampleFixtures = [ (AUS, BEL)
-                                  , (AUS, COL)
-                                  , (AUS, DEN)
-                                  , (BEL, COL)
-                                  , (BEL, DEN)
-                                  , (COL, DEN)
-                                  ]
-            in forAll (sublistOf exampleFixtures) $ \fs -> (length $ worlds fs) == 3^(length fs)
+            forAll (sublistOf exampleFixtures) $ \fs -> (length $ worlds fs) == 3^(length fs)
 
         it "contains lists of length equal to length of input list" $ property $
-            let exampleFixtures = [ (AUS, BEL)
-                                  , (AUS, COL)
-                                  , (AUS, DEN)
-                                  , (BEL, COL)
-                                  , (BEL, DEN)
-                                  , (COL, DEN)
-                                  ]
-            in forAll (sublistOf exampleFixtures) $ \fs -> allEqual (map length (worlds fs))
+            forAll (sublistOf exampleFixtures) $ \fs -> allEqual (map length (worlds fs))
 
+
+    describe "integration with fixtures" $ do
+
+        it "can be composed with fixtures to derive worlds from teams" $ do
+            let teams = [ AUS, BEL, COL, DEN ]
+                expectedWorldCount = 729
+            length ((worlds . fixtures) teams) == expectedWorldCount

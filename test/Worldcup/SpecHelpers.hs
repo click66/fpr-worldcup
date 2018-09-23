@@ -14,6 +14,7 @@ results = [ Win, Loss, Draw ]
 -- Checks if all elements in a given list of integers are equal
 allEqual :: [Int] -> Bool
 allEqual []        = True
+allEqual [x]       = True
 allEqual (x:xs)
     | x /= head xs = False
     | otherwise    = allEqual xs
