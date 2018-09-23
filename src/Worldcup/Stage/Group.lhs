@@ -1,6 +1,7 @@
 > module Worldcup.Stage.Group
 >     (
->       fixtures
+>       distinctOutcomes
+>     , fixtures
 >     , matchScores
 >     , possibleOutcomes
 >     , worlds
@@ -105,7 +106,11 @@ Secondly, `groupedScores` uses a composed "groupBy" and "sort" to create a list 
 
 Finally, the `groupTotal` function performs a "foldr" to sum all point values in a list of scores, utilising the head as the initial value for the "accumulator". This function is then mapped over the list of lists, producing the final list of non-duplicated scores.
 
-From this, it would be possible to compute a list of all possible score combinations for all possible worlds in a group, using an expression such as:
+
+Outcomes
+--------
+
+From the above, it would be possible to compute a list of all possible score combinations for all possible worlds in a group, using an expression such as:
 
     [worldScores world | world <- (worlds . fixtures) [ AUS, BEL, CRO, DEN ]]
 
@@ -114,7 +119,31 @@ This logic is exposed by the function "possibleOutcomes":
 > possibleOutcomes :: [Team] -> [(World, [Score])]
 > possibleOutcomes teams = [(world, worldScores world) | world <- (worlds . fixtures) teams ]
 
-Of course, whilst this function utilises list comprehension, this is a simple case that could equally be achieved using a map and a lambda. However, it is one's opinion that the the list comprehension expression is cleaner:
+Of course, whilst this function utilises list comprehension, this is a simple case that could equally be achieved using a map and a lambda. However, it is one's opinion that the the list comprehension expression is simply cleaner:
 
     possibleOutcomes' :: [Team] -> [(World, [Score])]
     possibleOutcomes' teams = map (\world -> (world, worldScores world)) ((worlds . fixtures) teams)
+
+
+Distinct Outcomes
+-----------------
+
+Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. The defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
+
+> decreasingScores :: [Score] -> Bool
+> decreasingScores []     = True
+> decreasingScores [s]    = True
+> decreasingScores (x:xs)
+>     | not (x `greaterThanOrEqualTo` head xs) = False
+>     | otherwise                              = decreasingScores xs
+>       where greaterThanOrEqualTo (t1, s1) (t2, s2) = s1 >= s2
+
+In order to allow this predicate to be used with the output of the "possibleOutcomes" function, an alternate implementation, "decreasingScores'" will be utilised:
+
+> decreasingScores' :: (World, [Score]) -> Bool
+> decreasingScores' (world, scores) = decreasingScores scores
+
+Thus the function "distinctOutcomes" can be created with a simple composition:
+
+> distinctOutcomes :: [Team] -> [(World, [Score])]
+> distinctOutcomes = filter decreasingScores' . possibleOutcomes
