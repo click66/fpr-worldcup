@@ -80,12 +80,19 @@ A function "matchScores" translates a (Fixture, Result) tuple into a list of sco
 
 > type Score = (Team, Int)
 
-> matchScores :: (Fixture, Result) -> [Score]
-> matchScores ((teamA, teamB), r)
->     | r == Win  = [(teamA, 3), (teamB, 0)]
->     | r == Loss = [(teamA, 0), (teamB, 3)]
->     | r == Draw = [(teamA, 1), (teamB, 1)]
+One option for implementing this function would be with simple guards for each possible Win, such as:
 
+    matchScores ((teamA, teamB), r)
+        | r == Win  = [(teamA, 3), (teamB, 0)]
+        | r == Loss = [(teamA, 0), (teamB, 3)]
+        | r == Draw = [(teamA, 1), (teamB, 1)]
+
+However, for reasons of cleanliness, the DRY principle and extensibility, this logic has been abstracted out to the "points" and "inverse" functions exposed with the Result data type (see the Result module for more information). This allows a one-line function definition:
+
+> matchScores :: (Fixture, Result) -> [Score]
+> matchScores ((teamA, teamB), r) = [(teamA, points r), (teamB, points $ inverse r)]
+
+It is worth mentioning that initially this function was implemented using the guards, but was later refactored. The simple implementation helped with the creation of the tests which then gave one confidence in the ability to refactor.
 
 World Scores
 ------------
@@ -135,9 +142,9 @@ Given that many of these worlds are the same, and therefore unenlightening, it i
 > decreasingScores []     = True
 > decreasingScores [s]    = True
 > decreasingScores (x:xs)
->     | not (x `greaterThanOrEqualTo` head xs) = False
->     | otherwise                              = decreasingScores xs
->       where greaterThanOrEqualTo (t1, s1) (t2, s2) = s1 >= s2
+>     | x `lessThan` head xs = False
+>     | otherwise            = decreasingScores xs
+>   where lessThan (t1, s1) (t2, s2) = s1 < s2
 
 In order to allow this predicate to be used with the output of the "possibleOutcomes" function, an alternate implementation, "decreasingScores'" will be utilised:
 
