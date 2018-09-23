@@ -33,4 +33,5 @@ spec = do
 
         it "can be composed with fixtures to derive worlds from teams" $ do
             let teams = [ AUS, BEL, COL, DEN ]
-            length ((worlds . fixtures) teams) == 729
+                expectedWorldCount = 729
+            length ((worlds . fixtures) teams) == expectedWorldCount
