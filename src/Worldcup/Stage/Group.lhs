@@ -2,6 +2,7 @@
 >     (
 >       fixtures
 >     , matchScores
+>     , possibleOutcomes
 >     , worlds
 >     , worldScores
 >     ) where
@@ -104,7 +105,16 @@ Secondly, `groupedScores` uses a composed "groupBy" and "sort" to create a list 
 
 Finally, the `groupTotal` function performs a "foldr" to sum all point values in a list of scores, utilising the head as the initial value for the "accumulator". This function is then mapped over the list of lists, producing the final list of non-duplicated scores.
 
-From this, it would be possible to compute a list a of all possible score combinations for all possible worlds in a group, using an expression such as:
+From this, it would be possible to compute a list of all possible score combinations for all possible worlds in a group, using an expression such as:
 
     [worldScores world | world <- (worlds . fixtures) [ AUS, BEL, CRO, DEN ]]
 
+This logic is exposed by the function "possibleOutcomes":
+
+> possibleOutcomes :: [Team] -> [(World, [Score])]
+> possibleOutcomes teams = [(world, worldScores world) | world <- (worlds . fixtures) teams ]
+
+Of course, whilst this function utilises list comprehension, this is a simple case that could equally be achieved using a map and a lambda. However, it is one's opinion that the the list comprehension expression is cleaner:
+
+    possibleOutcomes' :: [Team] -> [(World, [Score])]
+    possibleOutcomes' teams = map (\world -> (world, worldScores world)) ((worlds . fixtures) teams)
