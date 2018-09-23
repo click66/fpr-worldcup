@@ -152,4 +152,4 @@ Thus the function "distinctOutcomes" can be created with a simple composition:
 Just for fun, the same idea can be applied using the original "decreasingScores" implementation and the earlier-defined "fixtures", "worlds" and "worldScores" functions, in order to create a "distinctWorldScores":
 
 > distinctWorldScores :: [Team] -> [[Score]]
-> distinctWorldScores = (filter decreasingScores) . (map worldScores) . worlds . fixtures
+> distinctWorldScores = filter decreasingScores . map worldScores . worlds . fixtures
