@@ -13,10 +13,6 @@
 
 > results = [ Win, Draw, Loss ]
 
-> type Fixture = (Team, Team)
-> type World   = [(Fixture, Result)]
-
-
 Fixtures
 --------
 
@@ -28,7 +24,9 @@ this function will return 6 fixtures:
 
      [ (AUS , BEL), (AUS , COL), (AUS , DEN), (BEL, COL), (BEL, DEN), (COL, DEN) ]
 
-The function utilises Haskell's list comprehension on the tails of the teams list. It is essentially a nested loop, iterating within each team to pair the "head" of each tail with the remaining elements in that tail. 
+> type Fixture = (Team, Team)
+
+The function utilises Haskell's list comprehension on the tails of the teams list. It is essentially a nested loop, iterating within each team to pair the "head" of each tail with the remaining elements in that tail.
 
 Any duplicate teams passed will be ignored (this is achieved by simply filtering out the duplicates before running the algorithm. In a case where it is not possible to make any pairs (e.g. the list contains only a single team), an empty list will be returned.
 
@@ -43,6 +41,8 @@ Worlds
 ------
 
 A function "worlds" generates all possible worlds (a "world" being a collection of fixtures together with their results) from a given group of fixtures.
+
+> type World   = [(Fixture, Result)]
 
 This is achieved first through the definition of the private function "resultSets". This function, given a list of possible results will produce a list of all possible permutations of these results across a given size. e.g.:
 
