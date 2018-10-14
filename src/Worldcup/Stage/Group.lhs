@@ -2,6 +2,8 @@
 >     (
 >       distinctOutcomes
 >     , distinctWorldScores
+>     , duplicateOutcomes
+>     , duplicates
 >     , fixtures
 >     , matchScores
 >     , possibleOutcomes
@@ -165,3 +167,17 @@ Just for fun, the same idea can be applied using the original "decreasingScores"
 Duplicates
 ----------
 
+The function "duplicates", given a list of tuples of pattern (a, b), returns a list of lists grouping the members of the provided list of tuples where the "b" component appears more than once.
+
+> duplicates :: Ord b => [(a, b)] -> [[(a, b)]]
+> duplicates = filter (\l -> length l > 1) . grouped . sorted
+>   where
+>     grouped = groupBy (\(_, b1) (_, b2) -> b1 == b2)
+>     sorted = sortBy (\(_, b1) (_, b2) -> compare b1 b2)
+
+"duplicates" achieves this through a composition of partial applications of "sortBy", "groupBy" and "filter". Imperatively speaking, this function: sorts the provided list on the b elements of the tuples; groups all duplicates through a custom-defined predicate stipulating equal b elements; and finally filters the new list to elements where the length exceeds 1.
+
+This allows the declaration of "duplicateOutcomes":
+
+> duplicateOutcomes :: [Team] -> [[(World, [Score])]]
+> duplicateOutcomes = duplicates . distinctOutcomes
