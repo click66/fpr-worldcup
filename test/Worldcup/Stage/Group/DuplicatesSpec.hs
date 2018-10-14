@@ -14,6 +14,3 @@ spec = do
         it "produces the expected groups from the provided scenario" $ do
             duplicates [ (1, 'a'), (2, 'b'), (3, 'b'), (5, 'a'), (6, 'c') ]
                 == ([[(1, 'a'), (5, 'a')], [(2, 'b'), (3, 'b')]])
-
-        it "returns an empty list when given an empty set of lists" $ do
-            (duplicates []) == []
