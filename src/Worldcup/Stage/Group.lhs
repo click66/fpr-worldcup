@@ -136,7 +136,7 @@ Of course, whilst this function utilises list comprehension, this is a simple ca
 Distinct Outcomes
 -----------------
 
-Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. The defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
+Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. In the spirit of breaking down the problem, the defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
 
 > decreasingScores :: [Score] -> Bool
 > decreasingScores []     = True
@@ -151,7 +151,7 @@ In order to allow this predicate to be used with the output of the "possibleOutc
 > decreasingScores' :: (World, [Score]) -> Bool
 > decreasingScores' (world, scores) = decreasingScores scores
 
-Thus the function "distinctOutcomes" can be created with a simple composition:
+The decreasingScores' function serves as a kind of decorator for the initial predicate. Thus the function "distinctOutcomes" can be created with a simple composition:
 
 > distinctOutcomes :: [Team] -> [(World, [Score])]
 > distinctOutcomes = filter decreasingScores' . possibleOutcomes
@@ -160,3 +160,8 @@ Just for fun, the same idea can be applied using the original "decreasingScores"
 
 > distinctWorldScores :: [Team] -> [[Score]]
 > distinctWorldScores = filter decreasingScores . map worldScores . worlds . fixtures
+
+
+Duplicates
+----------
+
