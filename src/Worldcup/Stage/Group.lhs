@@ -2,6 +2,8 @@
 >     (
 >       distinctOutcomes
 >     , distinctWorldScores
+>     , duplicateOutcomes
+>     , duplicates
 >     , fixtures
 >     , matchScores
 >     , possibleOutcomes
@@ -136,7 +138,7 @@ Of course, whilst this function utilises list comprehension, this is a simple ca
 Distinct Outcomes
 -----------------
 
-Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. The defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
+Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. In the spirit of breaking down the problem, the defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
 
 > decreasingScores :: [Score] -> Bool
 > decreasingScores []     = True
@@ -151,7 +153,7 @@ In order to allow this predicate to be used with the output of the "possibleOutc
 > decreasingScores' :: (World, [Score]) -> Bool
 > decreasingScores' (world, scores) = decreasingScores scores
 
-Thus the function "distinctOutcomes" can be created with a simple composition:
+The decreasingScores' function serves as a kind of decorator for the initial predicate. Thus the function "distinctOutcomes" can be created with a simple composition:
 
 > distinctOutcomes :: [Team] -> [(World, [Score])]
 > distinctOutcomes = filter decreasingScores' . possibleOutcomes
@@ -160,3 +162,22 @@ Just for fun, the same idea can be applied using the original "decreasingScores"
 
 > distinctWorldScores :: [Team] -> [[Score]]
 > distinctWorldScores = filter decreasingScores . map worldScores . worlds . fixtures
+
+
+Duplicates
+----------
+
+The function "duplicates", given a list of tuples of pattern (a, b), returns a list of lists grouping the members of the provided list of tuples where the "b" component appears more than once.
+
+> duplicates :: Ord b => [(a, b)] -> [[(a, b)]]
+> duplicates = filter (\l -> length l > 1) . grouped . sorted
+>   where
+>     grouped = groupBy (\(_, b1) (_, b2) -> b1 == b2)
+>     sorted = sortBy (\(_, b1) (_, b2) -> compare b1 b2)
+
+"duplicates" achieves this through a composition of partial applications of "sortBy", "groupBy" and "filter". Imperatively speaking, this function: sorts the provided list on the b elements of the tuples; groups all duplicates through a custom-defined predicate stipulating equal b elements; and finally filters the new list to elements where the length exceeds 1.
+
+This allows the declaration of "duplicateOutcomes":
+
+> duplicateOutcomes :: [Team] -> [[(World, [Score])]]
+> duplicateOutcomes = duplicates . distinctOutcomes
