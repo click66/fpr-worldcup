@@ -1,10 +1,10 @@
-module Worldcup.Stage.Knockout.UniformSpec (spec) where
+module Worldcup.Stage.Knockout.Probabilities.UniformSpec (spec) where
 
 import Data.Ratio
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
-import Worldcup.Stage.Knockout (uniform)
+import Worldcup.Stage.Knockout.Probabilities (uniform)
 import Worldcup.SpecHelpers
 
 spec :: Spec

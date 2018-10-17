@@ -1,9 +1,9 @@
-module Worldcup.Stage.Knockout.MapDSpec (spec) where
+module Worldcup.Stage.Knockout.Probabilities.MapDSpec (spec) where
 
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
-import Worldcup.Stage.Knockout (coin, mapD)
+import Worldcup.Stage.Knockout.Probabilities (coin, mapD)
 
 spec :: Spec
 spec = do
