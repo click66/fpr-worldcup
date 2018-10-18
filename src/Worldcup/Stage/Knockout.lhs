@@ -1,3 +1,6 @@
+4 Knockout Stage
+----------------
+
 > module Worldcup.Stage.Knockout
 >     (
 >       knockout
@@ -12,8 +15,7 @@
 > import Worldcup.Result
 > import Worldcup.Team
 
-Tournaments
------------
+__4.1 Tournaments__
 
 A function "tournament" can create a tournament from a list of provided teams. For example:
 
@@ -52,8 +54,7 @@ As can be seen, "tournament" actually works on any type. Given the context in wh
 This function is the only exposed function, and thus testing is restricted to it. This is to obey the rule of YAGNI.
 
 
-Away they go!
--------------
+__4.2 Away they go!__
 
 The function "playMatch" returns a probability Distribution of teams weighted according to that team's odds of winning.
 

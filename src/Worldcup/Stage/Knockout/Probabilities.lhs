@@ -5,9 +5,8 @@
 > type Probability = Rational
 > type Distribution a = [(a, Probability)]
 
-
-Generation of Distributions
----------------------------
+__4.3 Probabilities__
+___Generation of Distributions___
 
 One can think of a "Distribution" as a container of specified elements (each element representing an "outcome") where, behind the facade of the type synonym, each element is mapped aginst a probability. It can be taken as an invariant that all probablities in a distribution should calculate to 1.
 
@@ -38,8 +37,7 @@ The function "choose" represents a choice between two outcomes with the probabil
 > choose p u v = mapD (\b -> if b then u else v) $ coin p
 
 
-Manipulation and Computation of Distributions
----------------------------------------------
+___Manipulation and Computation of Distributions___
 
 Given the task to define "distAvg", a function that, given a distribution of distributions will compute the distributed average of the overall distribution (returning a single distribution), the task can be broken down into multiple smaller steps for clarity. As the initial step, one can define a single function "weight", which will take a Probability and a Distribution and return a Distribution with each element "weighted" by the provided probability. This function utilises list comprehension to apply the multiplication to each probability in the distribution in turn.
 
