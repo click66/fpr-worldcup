@@ -4,9 +4,9 @@
 >     , Tournament
 >     ) where
 
-> import Worldcup.Team
 > import Worldcup.Stage.Knockout.Probabilities
 > import Worldcup.Stage.Knockout.Tournament
+> import Worldcup.Team
 
 > type Strength = Rational
 
@@ -29,17 +29,29 @@ will return:
     Match ((Match (Singleton AUS) (Singleton (BEL))) (Match (Singleton CRO) (Singleton DEN)))
 
 > tournament :: [a] -> Tournament a
-> tournament ts = head $ compile [ Match (Singleton t1) (Singleton t2) | (t1, t2) <- pairs ts]
->   where
->     pairs (t1:t2:ts) = (t1, t2) : pairs ts
->     pairs []         = []
->     compile (t1:t2:ts) = (Match t1 t2) : compile ts
->     compile []       = []
+> tournament ts = case compile $ (map Singleton ts) of
+>                      [] -> Null
+>                      l  -> head l
 
-Given the context in which this module is used, it makes sense, one believes, to specialise this function into a "knockout" function:
+The function utilises two internal functions: "pair", which constructs a list of "Match"es out of a list of "Tournament" datatypes; and "compile", which continuously calls pair on a given list of "Tournament" datatypes until the length of the resulting list is less than or equal to 1 (i.e. we will be left with a single "Match" encompassing the entire tournament). "tournament" then simply returns the head of this compiled resultant list.
 
- knockout :: [Team] -> Tournament Team
+> pair :: [Tournament a] -> [Tournament a]
+> pair (t1:t2:ts) = (Match t1 t2) : pair ts
+> pair (t1:[])    = [t1]
+> pair []         = []
 
+> compile :: [Tournament a] -> [Tournament a]
+> compile ts
+>     | length ts <= 1 = ts
+>     | otherwise      = compile $ pair ts
+
+Although this function deals with irregular numbers of teams (that is, a length that is not a power of 2 or even an even number), the attempt to return the "head" of the "compiled" list will trigger a Prelude exception in the case of an empty list passed. To deal with this eventuality, a third constructor "Null" has been added to the "Tournament" datatype definition (see Worldcup.Stage.Knockout.Tournamnet). This is a nullary data constructor which indicates an empty tournament devoid of any team. This is handled by the case expression in the body of "tournament". For reference, the original (unsafe) body prior to this extension was:
+
+    tournament ts = head . compile $ (map Singleton ts)
+
+As can be seen, "tournament" actually works on any type. Given the context in which this module is used however, it makes sense, one believes, to specialise this function into a "knockout" function:
+
+> knockout :: [Team] -> Tournament Team
 > knockout = tournament
 
 This function is the only exposed function, and thus testing is restricted to it. This is to obey the rule of YAGNI.

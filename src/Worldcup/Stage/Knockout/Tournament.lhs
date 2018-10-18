@@ -7,4 +7,5 @@ This module defines the datatype "Tournament". It exists as a separate module to
 
 > data Tournament a = Singleton a
 >                   | Match (Tournament a) (Tournament a)
+>                   | Null
 >     deriving Show
