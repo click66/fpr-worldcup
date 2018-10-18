@@ -27,12 +27,10 @@ The function "point" returns a one-point distribution; that is, a single possibl
 > uniform xs = map (\x -> (x, singleProb)) xs
 >   where singleProb = (1 :: Rational) / toRational (length xs)
 
-
 "mapD" maps a function over the elements within a distribution.
 
 > mapD :: (a -> b) -> Distribution a -> Distribution b
 > mapD f ds = map (\(a, p) -> (f a, p)) ds
-
 
 The function "choose" represents a choice between two outcomes with the probability of the first outcome specified as the first parameter. The function will return the resulting distribution.
 
