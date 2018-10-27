@@ -60,18 +60,17 @@ This function is the only exposed function, and thus testing is restricted to it
 
 __4.2 Away they go!__
 
-The function "playMatch" returns a probability Distribution of teams weighted according to that team's odds of winning.
+The function "playMatch" returns a probability Distribution of teams. The probability of team A beating team B (P) is calculated by the formula:
+
+    P = strength(teamA) / strength(teamA) + strength(teamB)
 
 > playMatch :: Team -> Team -> Distribution Team
-> playMatch t1 t2 = simplify' $ (choose (strength t1) t1 t2) `andThen` (
->     \b -> if b == t2 then choose (strength t2) t2 t1 else point t1
->     )
+> playMatch t1 t2 = choose ((strength t1) / ((strength t1) + (strength t2))) t1 t2
 
 > playTournament :: Tournament Team -> Distribution Team
 > playTournament Null          = []
 > playTournament (Singleton t) = point t
 > playTournament (Match (Singleton t1) (Singleton t2)) = playMatch t1 t2
 > playTournament (Match (Match t1 t2) (Match t3 t4)) = playTournament (Match t1 t2) ++ playTournament (Match t3 t4)
-
 
 > knockout2018 = tournament [URU,POR,FRA,ARG,BRA,MEX,BEL,JPN, ESP,RUS,CRO,DEN,SWE,SUI,COL,ENG]
