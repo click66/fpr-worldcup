@@ -27,8 +27,7 @@ library:
 
 executables:
   fpr-worldcup-exe:
-    main:                Main.lhs
-    source-dirs:         app
+    main:                README.lhs
     ghc-options:
     - -threaded
     - -rtsopts

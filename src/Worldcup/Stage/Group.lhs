@@ -1,3 +1,6 @@
+3 Group Stage
+-------------
+
 > module Worldcup.Stage.Group
 >     (
 >       distinctOutcomes
@@ -18,8 +21,7 @@
 
 > results = [ Win, Draw, Loss ]
 
-Fixtures
---------
+__3.1 Fixtures__
 
 A function "fixtures" generates all matches (non-repeating combinatorial pairs) for a given group of teams; that is, each team has one fixture against each of the other teams. For example, given a list of teams:
 
@@ -42,8 +44,7 @@ Any duplicate teams passed will be ignored (this is achieved by simply filtering
 >                     where uniques = nub teams
 
 
-Worlds
-------
+__3.2 Worlds__
 
 A function "worlds" generates all possible worlds (a "world" being a collection of fixtures together with their results) from a given group of fixtures.
 
@@ -75,8 +76,7 @@ Given the above-defined "worlds" and "fixtures" functions, it is possible to cre
     teamsToWorlds = worlds . fixtures
 
 
-Match Scores
-------------
+__3.3 Match Scores__
 
 A function "matchScores" translates a (Fixture, Result) tuple into a list of scores (a score being a tuple of (Team, Int), the Int value being that of the number of scored points):
 
@@ -96,8 +96,7 @@ However, for reasons of cleanliness, the DRY principle and extensibility, this l
 
 It is worth mentioning that initially this function was implemented using the guards, but was later refactored. The simple implementation helped with the creation of the tests which then gave one confidence in the ability to refactor.
 
-World Scores
-------------
+__3.4 World Scores__
 
 Thus a function "worldScores", given a world, will compute all final scores for all teams in the world. The result is a list of scores, e.g.:
 
@@ -117,8 +116,7 @@ Secondly, `groupedScores` uses a composed "groupBy" and "sort" to create a list 
 Finally, the `groupTotal` function performs a "foldr" to sum all point values in a list of scores, utilising the head as the initial value for the "accumulator". This function is then mapped over the list of lists, producing the final list of non-duplicated scores.
 
 
-Outcomes
---------
+__3.5 Outcomes__
 
 From the above, it would be possible to compute a list of all possible score combinations for all possible worlds in a group, using an expression such as:
 
@@ -135,8 +133,7 @@ Of course, whilst this function utilises list comprehension, this is a simple ca
     possibleOutcomes' teams = map (\world -> (world, worldScores world)) ((worlds . fixtures) teams)
 
 
-Distinct Outcomes
------------------
+__3.6 Distinct Outcomes__
 
 Given that many of these worlds are the same, and therefore unenlightening, it is prudent to create the capability to generate distinct outcomes of a group; that is, outcomes which produce a distinct set of scores. In the spirit of breaking down the problem, the defined predicate "decreasingScores" determines if a given set of scores are exclusively "decreasing" (that is, each score is equal to or less than its preceding score).
 
@@ -164,8 +161,7 @@ Just for fun, the same idea can be applied using the original "decreasingScores"
 > distinctWorldScores = filter decreasingScores . map worldScores . worlds . fixtures
 
 
-Duplicates
-----------
+__3.7 Duplicates__
 
 The function "duplicates", given a list of tuples of pattern (a, b), returns a list of lists grouping the members of the provided list of tuples where the "b" component appears more than once.
 
