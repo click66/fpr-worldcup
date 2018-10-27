@@ -1,3 +1,7 @@
+__4.5 Probabilities__
+
+Since a large number of functions required during the implementation of the "Knockout" tasks dealt with probability manipulation in a generic sense, for clarity, the decision was made to encapsulate all of that logic and the supporting functions into a dedicated submodule for the sake of clarity. This module represents that.
+
 > module Worldcup.Stage.Knockout.Probabilities where
 
 > import Data.List (tails, sort, sortBy, groupBy, nub, partition)
@@ -5,7 +9,6 @@
 > type Probability = Rational
 > type Distribution a = [(a, Probability)]
 
-__4.3 Probabilities__
 ___Generation of Distributions___
 
 One can think of a "Distribution" as a container of specified elements (each element representing an "outcome") where, behind the facade of the type synonym, each element is mapped aginst a probability. It can be taken as an invariant that all probablities in a distribution should calculate to 1.

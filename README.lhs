@@ -46,6 +46,34 @@ Build the application and run the test suite with:
 stack test
 ```
 
+Contents
+--------
+
+The documentation is spread across various modules and submodules in the codebase. This table of contents provides a reference for the locations of the sections that encompass the entire implementation.
+
+|     | File | Line no. |
+| --- | --- | --- |
+| 1 Introduction              | README.lhs | 77
+| 2 Demonstration             | | 101
+| - 2.1 Group Stage           | | 106
+| - 2.2 Knockout Stage        | | 159
+| 3 Group Stage               | src/Worldcup/Stage/Group.lhs | 1
+| - 3.1 Fixtures              | | 26
+| - 3.2 Worlds                | | 49
+| - 3.3 Match Scores          | | 81
+| - 3.4 World Scores          | | 101
+| - 3.5 Outcomes              | | 121
+| - 3.6 Distinct Outcomes     | | 138
+| - 3.7 Duplicates            | | 166
+| 4 Knockout Stage            | src/Worldcup/Stage/Knockout.lhs | 1
+| - 4.1 Tournaments           | | 22
+| - 4.2 Away they go!         | | 61
+| - 4.3 "Tournament" datatype | src/Worldcup/Stage/Knockout/Tournament.lhs | 1
+| - 4.4 Strengths             | src/Worldcup/Stage/Knockout/Strength.lhs | 1
+| - 4.5 Probabilities         | src/Worldcup/Stage/Knockout/Probabilities.lhs | 1
+| 5 The "Result" Definition   | src/Worldcup/Result.lhs | 1
+| 6 The "Team" Definition     | src/Worldcup/Team.lhs | 1
+
 1 Introduction
 --------------
 

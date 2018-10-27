@@ -1,6 +1,8 @@
 3 Group Stage
 -------------
 
+This module is dedicated to the implementation of the "Group stage" task. All code encapsulating this module is this one file.
+
 > module Worldcup.Stage.Group
 >     (
 >       distinctOutcomes

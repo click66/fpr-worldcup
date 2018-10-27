@@ -1,3 +1,5 @@
+__6 The "Team" definition__
+
 > module Worldcup.Team where
 
 This is the basic data type representing a "Team". It derives from Enum, and simply acts as an Enumeration of all possible teams that can participate in a World Cup:

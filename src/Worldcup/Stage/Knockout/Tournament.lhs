@@ -1,3 +1,5 @@
+__4.3 "Tournament" datatype__
+
 > module Worldcup.Stage.Knockout.Tournament
 >     (
 >       Tournament (..)

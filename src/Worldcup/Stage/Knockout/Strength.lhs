@@ -1,3 +1,7 @@
+__4.4 Strengths__
+
+This module keeps the index of all team odds, defines a "Strength" and provides function(s) utilising these.
+
 > module Worldcup.Stage.Knockout.Strength
 >     (
 >       strength

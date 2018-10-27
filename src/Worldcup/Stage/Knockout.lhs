@@ -1,6 +1,10 @@
 4 Knockout Stage
 ----------------
 
+This module encapsulates the implementation of the "Knockout Stage" task.
+
+In the codebase, this module is spread across multiple submodules. "Worldcup.Stage.Knockout" contains the main implementation of the questions, whilst supplementary functions and datatypes are kept in separate modules for clarity (those existing under the "Worldcup.Stage.Knockout.*" namespace, specifically).
+
 > module Worldcup.Stage.Knockout
 >     (
 >       knockout

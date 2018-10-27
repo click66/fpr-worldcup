@@ -1,6 +1,8 @@
-> module Worldcup.Result where
+__5 The "Result" definition__
 
 This module defines a "Result"; in its most basic form, this is simply an algabreic datatype with three available constructors: Win, Draw and Loss:
+
+> module Worldcup.Result where
 
 > data Result = Win | Draw | Loss
 >     deriving (Eq, Show)
