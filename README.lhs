@@ -40,7 +40,7 @@ stack build && stack exec fpr-worldcup-exe
 
 __Testing__
 
-Build the application and run the test suite with:
+Tests are written in the test/ directory. Build the application and run the test suite with:
 
 ```bash
 stack test
